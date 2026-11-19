@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>数字档案：长征红色坐标图谱</title>
 <style>
   :root {
@@ -21,6 +21,30 @@
     min-height: 100vh; padding: 20px; overflow-y: auto;
     background-image: radial-gradient(circle at 50% 0%, #3a2e28 0%, #1a1614 70%);
   }
+
+  /* ================= 新增：强制横屏提示遮罩 ================= */
+  #rotateOverlay {
+    display: none; /* 默认隐藏 */
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    background: #1a1614; z-index: 99999;
+    flex-direction: column; justify-content: center; align-items: center;
+    color: var(--gold); text-align: center;
+  }
+  .rotate-icon {
+    font-size: 64px; margin-bottom: 20px;
+    animation: rotatePhone 2s ease-in-out infinite;
+  }
+  @keyframes rotatePhone {
+    0% { transform: rotate(0deg); }
+    50% { transform: rotate(-90deg); }
+    100% { transform: rotate(0deg); }
+  }
+  /* 当屏幕是竖屏（portrait）且宽度小于1024px（手机/平板）时，显示遮罩 */
+  @media screen and (orientation: portrait) and (max-width: 1024px) {
+    #rotateOverlay { display: flex; }
+    .container { display: none !important; }
+  }
+  /* ========================================================= */
 
   .container {
     width: 100%; max-width: 1150px; 
@@ -193,7 +217,7 @@
   }
   @keyframes revealMap { to { opacity: 1; transform: scale(1); } }
 
-  /* 屏幕较小时适配 */
+  /* 屏幕较小时适配（这里将最大宽度改宽一点，方便横屏显示时左右排版） */
   @media (max-width: 1024px) {
     .dossier-card, .dossier-card.reverse { flex-direction: column; align-items: center; padding: 30px;}
     .dossier-text { width: 100%; }
@@ -211,9 +235,16 @@
 </head>
 <body>
 
+<!-- 竖屏提示遮罩 -->
+<div id="rotateOverlay">
+  <div class="rotate-icon">📱</div>
+  <h2 style="font-family: 'KaiTi', serif; font-size: 28px; margin-bottom: 10px;">请将手机横屏体验</h2>
+  <p style="color: #b8a88f; font-size: 16px;">旋转手机以获得最佳视觉及操作体验</p>
+</div>
+
 <!-- 🎵 背景音乐 -->
 <audio id="bgm" src="bgm.mp4" preload="auto" loop></audio>
-<!-- ❌ 错误音效：这里已经改成了 error.mp4 -->
+<!-- ❌ 错误音效 -->
 <audio id="errorSound" src="error.mp4" preload="auto"></audio>
 
 <div class="container" id="mainContainer">
@@ -386,6 +417,21 @@
   const nextBtn = document.getElementById('nextBtn');
   const summaryContainer = document.getElementById('summaryContainer');
 
+  // ================= 屏幕横屏及全屏控制 =================
+  function requestLandscape() {
+    // 尝试调用全屏 (如果是在安卓手机浏览器中有效)
+    let docElm = document.documentElement;
+    if (docElm.requestFullscreen) {
+      docElm.requestFullscreen().catch(()=>{});
+    } else if (docElm.webkitRequestFullScreen) { 
+      docElm.webkitRequestFullScreen().catch(()=>{});
+    }
+    // 尝试强制横屏 (部分浏览器支持)
+    if (screen.orientation && screen.orientation.lock) {
+      screen.orientation.lock('landscape').catch(()=>{});
+    }
+  }
+
   // ================= 音频控制逻辑 =================
   const bgm = document.getElementById('bgm');
   const errorSound = document.getElementById('errorSound'); 
@@ -433,6 +479,9 @@
   }
 
   startBtn.onclick = function() {
+    // 用户点击后，尝试全屏+横屏
+    requestLandscape();
+    
     introArea.style.display = 'none';
     loadMission(0);
     if (isMusicOn) { bgm.play().catch(e => {}); }
@@ -507,7 +556,6 @@
         resultText.style.color = '#e74c3c';
         resultText.textContent = "❌ 偏移量错误，请继续尝试。";
         
-        // ❌ 破译错误：播放 error.mp4 的音轨
         try {
           errorSound.currentTime = 0; 
           errorSound.volume = 0.8;    
