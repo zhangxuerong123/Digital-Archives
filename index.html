@@ -14,217 +14,164 @@
     --gold: #d4b87a;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
+  
   body {
     background-color: #1a1614; color: #e8ddd0; 
     font-family: "Songti SC", "SimSun", serif;
-    display: flex; justify-content: center; align-items: center;
-    min-height: 100vh; padding: 20px; overflow-y: auto;
+    display: flex; justify-content: center; align-items: flex-start;
+    min-height: 100vh; padding: 15px; /* 手机端留出安全边距 */
     background-image: radial-gradient(circle at 50% 0%, #3a2e28 0%, #1a1614 70%);
-  }
-
-  /* ================= 强制横屏提示遮罩 ================= */
-  #rotateOverlay {
-    display: none;
-    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-    background: #1a1614; z-index: 99999;
-    flex-direction: column; justify-content: center; align-items: center;
-    color: var(--gold); text-align: center;
-  }
-  .rotate-icon {
-    font-size: 64px; margin-bottom: 20px;
-    animation: rotatePhone 2s ease-in-out infinite;
-  }
-  @keyframes rotatePhone {
-    0% { transform: rotate(0deg); }
-    50% { transform: rotate(-90deg); }
-    100% { transform: rotate(0deg); }
-  }
-  @media screen and (orientation: portrait) and (max-width: 1024px) {
-    #rotateOverlay { display: flex; }
-    .container { display: none !important; }
+    background-attachment: fixed;
+    -webkit-tap-highlight-color: transparent;
   }
 
   .container {
-    width: 100%; max-width: 1150px; 
-    background: #2b1f1a; border: 2px solid #6b4f3f; border-radius: 6px;
-    padding: 35px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.8);
-    position: relative; margin: auto;
+    width: 100%; max-width: 650px; /* 竖屏最佳阅读宽度 */
+    background: #2b1f1a; border: 1px solid #6b4f3f; border-radius: 8px;
+    padding: 25px 20px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+    position: relative; margin: 20px auto;
   }
 
+  /* 音乐开关 */
   #musicToggle {
     position: absolute; top: 15px; right: 15px;
     background: transparent; border: 1px solid var(--gold); color: var(--gold);
-    padding: 5px 12px; border-radius: 20px; font-size: 14px; cursor: pointer;
+    padding: 5px 12px; border-radius: 20px; font-size: 13px; cursor: pointer;
     transition: all 0.2s; z-index: 100; font-family: inherit;
   }
-  #musicToggle:hover { background: rgba(212,184,122,0.2); }
 
   .header-progress {
-    font-size: 14px; color: var(--gold); letter-spacing: 2px; margin-bottom: 15px;
-    text-transform: uppercase; border-bottom: 1px dashed #6b4f3f; padding-bottom: 15px;
+    font-size: 13px; color: var(--gold); letter-spacing: 1px; margin-bottom: 12px;
+    text-transform: uppercase; border-bottom: 1px dashed #6b4f3f; padding-bottom: 12px;
   }
-  .title { font-size: 28px; letter-spacing: 3px; color: #fff; margin-bottom: 25px;}
+  .title { font-size: 24px; letter-spacing: 2px; color: #fff; margin-bottom: 20px;}
 
+  /* ================= 游戏说明简介区 ================= */
   .intro-area {
     background: var(--card-bg); color: var(--text-color);
-    padding: 40px 50px; border-radius: 6px; text-align: left;
-    box-shadow: inset 0 0 20px rgba(0,0,0,0.1), 8px 8px 20px rgba(0,0,0,0.6);
-    border: 1px solid #d3c4b0; margin-bottom: 20px;
-    display: block; animation: fadeIn 0.8s ease forwards;
+    padding: 25px 20px; border-radius: 6px; text-align: left;
+    box-shadow: inset 0 0 15px rgba(0,0,0,0.1), 4px 4px 15px rgba(0,0,0,0.5);
+    border: 1px solid #d3c4b0; margin-bottom: 15px;
+    display: block; animation: fadeIn 0.6s ease forwards;
   }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
   .intro-area h2 {
     color: var(--accent); font-family: "KaiTi", "楷体", serif;
-    font-size: 32px; text-align: center; margin-bottom: 25px;
-    border-bottom: 2px dashed #c0392b; padding-bottom: 15px; letter-spacing: 4px;
+    font-size: 26px; text-align: center; margin-bottom: 20px;
+    border-bottom: 2px dashed #c0392b; padding-bottom: 12px; letter-spacing: 2px;
   }
-  .intro-area p { font-size: 18px; line-height: 1.9; margin-bottom: 20px; text-align: justify; }
+  .intro-area p { font-size: 16px; line-height: 1.8; margin-bottom: 15px; text-align: justify; }
   .intro-area b { color: #a94442; }
   
   .rule-box {
-    background: rgba(0,0,0,0.05); border-left: 5px solid var(--accent);
-    padding: 20px 25px; margin: 25px 0; border-radius: 4px; box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
+    background: rgba(0,0,0,0.05); border-left: 4px solid var(--accent);
+    padding: 15px; margin: 20px 0; border-radius: 4px;
   }
-  .rule-box h3 { font-size: 22px; color: #6b4f3f; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
-  .rule-box ul { margin-left: 20px; line-height: 1.9; font-size: 17px;}
-  .rule-box li { margin-bottom: 8px; color: #444; }
+  .rule-box h3 { font-size: 18px; color: #6b4f3f; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+  .rule-box ul { margin-left: 18px; line-height: 1.7; font-size: 15px;}
+  .rule-box li { margin-bottom: 6px; color: #444; }
 
-  .btn-start-container { text-align: center; margin-top: 35px; }
+  .btn-start-container { text-align: center; margin-top: 25px; }
   .btn-start {
-    background: var(--accent); color: #fff; border: none; padding: 16px 50px; font-size: 22px; font-family: "KaiTi", "楷体", serif;
-    cursor: pointer; border-radius: 4px; letter-spacing: 4px; font-weight: bold; transition: all 0.3s; box-shadow: 0 4px 15px rgba(192, 57, 43, 0.4);
+    background: var(--accent); color: #fff; border: none; padding: 14px 40px; font-size: 20px; font-family: "KaiTi", "楷体", serif;
+    cursor: pointer; border-radius: 6px; letter-spacing: 2px; font-weight: bold; transition: all 0.2s; box-shadow: 0 4px 15px rgba(192, 57, 43, 0.4);
+    width: 100%;
   }
-  .btn-start:hover { background: #a93226; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(192, 57, 43, 0.6); }
+  .btn-start:active { transform: scale(0.98); }
 
+  /* ================= 解密操作区 ================= */
   .cipher-area { transition: opacity 0.5s ease; display: none; }
   .cipher-area.active { display: block; }
   .cipher-area.hidden { display: none; opacity: 0; }
 
   .cipher-text {
-    font-size: 36px; letter-spacing: 12px; color: #ffd700; background: #1a110d; padding: 25px; border-radius: 4px; margin-bottom: 25px;
-    font-weight: bold; font-family: "Courier New", monospace; border-left: 6px solid #6b4f3f; text-align: center; box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+    font-size: 32px; letter-spacing: 8px; color: #ffd700; background: #1a110d; padding: 20px; border-radius: 6px; margin-bottom: 20px;
+    font-weight: bold; font-family: "Courier New", monospace; border-left: 5px solid #6b4f3f; text-align: center; box-shadow: inset 0 0 15px rgba(0,0,0,0.5);
+    word-break: break-all;
   }
-  .control-area label { font-size: 18px; color: #b8a88f; }
-  input[type=range] { width: 80%; margin: 20px 0; accent-color: var(--gold); }
-  .offset-val { font-size: 32px; color: #ffd700; font-weight: bold; margin-bottom: 20px;}
+  .control-area label { font-size: 16px; color: #b8a88f; }
+  input[type=range] { width: 90%; margin: 15px 0; accent-color: var(--gold); height: 20px; }
+  .offset-val { font-size: 28px; color: #ffd700; font-weight: bold; margin-bottom: 15px;}
 
   .btn {
-    background: #6b4f3f; color: #fff; border: 1px solid #8a6d4a; padding: 15px 30px;
-    font-size: 18px; font-family: inherit; cursor: pointer; border-radius: 4px; letter-spacing: 3px; transition: all 0.2s;
+    background: #6b4f3f; color: #fff; border: 1px solid #8a6d4a; padding: 14px 30px;
+    font-size: 16px; font-family: inherit; cursor: pointer; border-radius: 6px; letter-spacing: 2px; transition: all 0.2s;
+    width: 100%;
   }
-  .btn:hover { background: #8a6d4a; box-shadow: 0 0 20px rgba(212,184,122,0.4); }
-  #submitBtn { display: block; margin: 0 auto; }
-  .result { margin-top: 20px; min-height: 30px; font-size: 18px; font-weight: bold; text-align: center; }
+  .btn:active { transform: scale(0.98); }
+  #submitBtn { display: block; margin: 0 auto; background: var(--accent); border-color: #e74c3c; font-weight: bold; }
+  .result { margin-top: 15px; min-height: 25px; font-size: 16px; font-weight: bold; text-align: center; }
 
+  /* ================= 档案卡片区 (竖屏优化) ================= */
   .dossier-card {
     display: none; background: var(--card-bg); color: var(--text-color);
-    padding: 40px; border-radius: 6px; text-align: left; position: relative;
-    box-shadow: inset 0 0 20px rgba(0,0,0,0.1), 8px 8px 20px rgba(0,0,0,0.6);
-    animation: slideUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-    border: 1px solid #d3c4b0; flex-direction: row; gap: 40px; align-items: center; 
+    padding: 25px 20px; border-radius: 6px; text-align: left; position: relative;
+    box-shadow: inset 0 0 15px rgba(0,0,0,0.1), 4px 4px 15px rgba(0,0,0,0.5);
+    animation: slideUp 0.5s ease forwards;
+    border: 1px solid #d3c4b0; 
+    flex-direction: column; /* 竖屏强制上下排布 */
+    gap: 20px; 
   }
-  .dossier-card.reverse { flex-direction: row-reverse; }
-  .dossier-text { flex: 1; display: flex; flex-direction: column; }
-  .dossier-card::before {
-    content: "📍"; position: absolute; top: -20px; left: 50%; transform: translateX(-50%);
-    font-size: 36px; filter: drop-shadow(0 2px 2px rgba(0,0,0,0.3)); z-index: 10;
-  }
-  @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); display: flex; } }
-
-  .dossier-loc { font-size: 36px; font-weight: bold; color: var(--accent); border-bottom: 3px solid var(--accent); display: inline-block; padding-bottom: 8px; margin-bottom: 20px; font-family: "KaiTi", "楷体", serif;}
-  .dossier-meta { font-size: 18px; color: #666; margin-bottom: 20px; font-weight: bold; letter-spacing: 1px;}
   
-  .dossier-content { font-size: 20px; line-height: 1.8; text-align: justify;}
+  .dossier-card::before {
+    content: "📍"; position: absolute; top: -18px; left: 50%; transform: translateX(-50%);
+    font-size: 32px; filter: drop-shadow(0 2px 2px rgba(0,0,0,0.3)); z-index: 10;
+  }
+  @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+  .dossier-text { width: 100%; display: flex; flex-direction: column; }
+  .dossier-loc { font-size: 28px; font-weight: bold; color: var(--accent); border-bottom: 2px solid var(--accent); display: inline-block; padding-bottom: 5px; margin-bottom: 15px; font-family: "KaiTi", "楷体", serif;}
+  .dossier-meta { font-size: 15px; color: #666; margin-bottom: 15px; font-weight: bold; letter-spacing: 1px;}
+  
+  .dossier-content { font-size: 16px; line-height: 1.8; text-align: justify;}
   .dossier-content b { color: #a94442; }
   .dossier-content .doc-title { 
-    font-size: 20px; font-weight: bold; color: #6b4f3f; display: block; margin-top: 15px; margin-bottom: 5px; border-left: 4px solid var(--accent); padding-left: 10px;
+    font-size: 17px; font-weight: bold; color: #6b4f3f; display: block; margin-top: 12px; margin-bottom: 5px; border-left: 4px solid var(--accent); padding-left: 8px;
   }
   
+  /* 实物档案拼贴排版 (竖屏优化) */
   .artifact-collage {
-    display: flex; gap: 15px; margin-top: 20px; align-items: center;
-    background: rgba(255,255,255,0.6); padding: 12px; border-radius: 4px; border: 1px dashed #b8a88f;
+    display: flex; flex-direction: column; gap: 15px; margin-top: 15px; 
+    background: rgba(255,255,255,0.6); padding: 12px; border-radius: 6px; border: 1px dashed #b8a88f;
+    align-items: center;
   }
-  .img-group { display: flex; gap: 10px; flex-shrink: 0; }
+  .img-group { display: flex; gap: 10px; justify-content: center; width: 100%;}
   .artifact-collage img {
-    width: 140px; height: auto; border: 4px solid #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.3); flex-shrink: 0; transition: transform 0.2s;
+    width: 120px; height: auto; border: 3px solid #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.2); 
+    transition: transform 0.2s;
   }
-  .artifact-collage img:hover { transform: scale(1.05) !important; z-index: 10; position: relative;}
   .artifact-collage .single-img { transform: rotate(-2deg); }
   .artifact-collage .dual-img-1 { transform: rotate(-3deg); }
   .artifact-collage .dual-img-2 { transform: rotate(3deg); }
-  .artifact-text { font-size: 16px; color: #444; line-height: 1.6; font-weight: bold;}
+  .artifact-text { font-size: 14px; color: #444; line-height: 1.5; font-weight: bold; text-align: center;}
 
   .dossier-img-container {
-    width: 480px; flex-shrink: 0; background: #fff; border: 6px solid #fff; box-shadow: 0 6px 15px rgba(0,0,0,0.3); padding: 5px; 
+    width: 100%; background: #fff; border: 4px solid #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.2); padding: 4px; border-radius: 4px;
   }
-  .dossier-img-container img { width: 100%; height: auto; display: block; }
-  .next-action { display: none; margin-top: 30px; text-align: center; }
+  .dossier-img-container img { width: 100%; height: auto; display: block; border-radius: 2px; }
 
+  .next-action { display: none; margin-top: 25px; text-align: center; }
+
+  /* ================= 最终长图总结 ================= */
   #summaryContainer {
     display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 9999; 
     background: #110d0b; justify-content: center; align-items: center;
   }
   #summaryImage {
-    max-width: 95%; max-height: 95%; object-fit: contain; box-shadow: 0 0 50px rgba(212,184,122,0.2); border: 4px solid #4a3f35;
-    animation: revealMap 1.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; opacity: 0; transform: scale(0.9);
+    max-width: 95%; max-height: 95%; object-fit: contain; box-shadow: 0 0 30px rgba(212,184,122,0.2); border: 2px solid #4a3f35;
+    animation: revealMap 1.2s ease forwards; opacity: 0; transform: scale(0.95);
   }
   @keyframes revealMap { to { opacity: 1; transform: scale(1); } }
 
-  @media screen and (orientation: portrait) and (max-width: 1024px) {
-    .dossier-card, .dossier-card.reverse { flex-direction: column; align-items: center; padding: 30px;}
-    .dossier-text { width: 100%; }
-    .dossier-img-container { width: 100%; max-width: 600px; margin-top: 20px;}
-    .dossier-content { font-size: 18px; }
-    .artifact-collage { flex-direction: column; align-items: flex-start; }
-    .artifact-collage img { width: 160px; }
-    .intro-area { padding: 25px; }
-    .intro-area h2 { font-size: 26px; }
-    .rule-box { padding: 15px; }
-    .btn-start { width: 100%; padding: 15px 20px; font-size: 20px; }
-    .cipher-text { font-size: 28px; letter-spacing: 8px; }
-  }
-
-  @media screen and (orientation: landscape) {
-    body { padding: 5px; align-items: flex-start; }
-    .container { padding: 10px 20px; max-width: 98vw; min-height: auto; margin-top: 10px; }
-    .header-progress { display: none; } 
-    .title { font-size: 20px; margin-bottom: 10px; letter-spacing: 1px; }
-    #musicToggle { top: 5px; right: 5px; padding: 3px 10px; font-size: 12px; }
-    .intro-area { padding: 15px 20px; margin-bottom: 10px; }
-    .intro-area h2 { font-size: 20px; margin-bottom: 10px; padding-bottom: 10px; }
-    .intro-area p { font-size: 14px; line-height: 1.5; margin-bottom: 10px; }
-    .rule-box { padding: 10px 15px; margin: 10px 0; }
-    .rule-box h3 { font-size: 16px; margin-bottom: 5px; }
-    .rule-box ul { font-size: 13px; line-height: 1.5; }
-    .btn-start { padding: 8px 25px; font-size: 16px; margin-top: 10px; }
-    .cipher-area { padding-top: 0; }
-    .cipher-text { font-size: 22px; padding: 10px; margin-bottom: 10px; letter-spacing: 6px; }
-    .control-area label { font-size: 13px; }
-    input[type=range] { margin: 5px 0; }
-    .offset-val { font-size: 18px; margin-bottom: 5px; }
-    #submitBtn { padding: 8px 20px; font-size: 16px; }
-    .dossier-card, .dossier-card.reverse { flex-direction: row !important; padding: 15px 20px; gap: 15px; align-items: flex-start; margin-top: 15px; border-radius: 4px; }
-    .dossier-text { width: 60%; flex: 1; }
-    .dossier-loc { font-size: 20px; margin-bottom: 5px; padding-bottom: 3px; border-bottom-width: 2px; }
-    .dossier-meta { font-size: 12px; margin-bottom: 8px; }
-    .dossier-content { font-size: 13px; line-height: 1.5; }
-    .dossier-content .doc-title { font-size: 14px; margin-top: 8px; padding-left: 6px; border-left-width: 3px; }
-    .dossier-img-container { width: 35%; max-width: 250px; margin-top: 0; border-width: 3px; padding: 3px; }
-    .artifact-collage { flex-direction: row; padding: 5px; gap: 8px; margin-top: 8px; align-items: center; }
-    .artifact-collage img { width: 60px; border-width: 2px; }
-    .artifact-text { font-size: 11px; line-height: 1.3; }
-    .next-action { margin-top: 15px; }
-    #nextBtn { padding: 8px 20px; font-size: 16px; }
+  /* 针对极窄屏幕做微调 */
+  @media (max-width: 375px) {
+    .cipher-text { font-size: 26px; letter-spacing: 5px; }
+    .intro-area h2 { font-size: 22px; }
+    .dossier-loc { font-size: 24px; }
   }
 </style>
 </head>
 <body>
-
-<div id="rotateOverlay">
-  <div class="rotate-icon">📱</div>
-  <h2 style="font-family: 'KaiTi', serif; font-size: 28px; margin-bottom: 10px;">请将手机横屏体验</h2>
-  <p style="color: #b8a88f; font-size: 16px;">旋转手机以获得最佳视觉及操作体验</p>
-</div>
 
 <audio id="bgm" src="bgm.mp4" preload="auto" loop></audio>
 <audio id="errorSound" src="error.mp4" preload="auto"></audio>
@@ -271,13 +218,12 @@
       <div class="dossier-content" id="dContent">档案内容...</div>
     </div>
     <div class="dossier-img-container">
-      <!-- 加上 loading 属性优化体验 -->
       <img id="dImg" src="" alt="档案照片" loading="lazy">
     </div>
   </div>
 
   <div class="next-action" id="nextAction">
-    <button class="btn" id="nextBtn" style="background: var(--accent); border-color: #e74c3c;">接收下一条密电 →</button>
+    <button class="btn" id="nextBtn">接收下一条密电 →</button>
   </div>
 </div>
 
@@ -286,7 +232,6 @@
 </div>
 
 <script>
-  // === 数据区 ===
   const missions = [
     {
       target: "RUIJIN", cipher: "WZNONS", location: "江西瑞金", time: "1934年10月", image: "1.jpg",
@@ -393,33 +338,17 @@
   const nextBtn = document.getElementById('nextBtn');
   const summaryContainer = document.getElementById('summaryContainer');
 
-  // === 🚀 新增：图片预加载逻辑 ===
+  // === 🚀 图片预加载 ===
   function preloadImages() {
-    // 收集所有需要的图片URL
     const imageUrls = [
       "1.jpg", "2.jpg", "3.jpg", "4.jpg", "5.jpg", "6.jpg", "7.jpg",
       "caoxie.jpg", "zidan.jpg", "cidao.jpg", "dayi.jpg", "kuabao.jpg",
       "lutu.jpg"
     ];
-    
-    // 在后台静默下载，放进浏览器缓存
     imageUrls.forEach(url => {
       const img = new Image();
       img.src = url;
     });
-  }
-  // ==============================
-
-  function requestLandscape() {
-    let docElm = document.documentElement;
-    if (docElm.requestFullscreen) {
-      docElm.requestFullscreen().catch(()=>{});
-    } else if (docElm.webkitRequestFullScreen) { 
-      docElm.webkitRequestFullScreen().catch(()=>{});
-    }
-    if (screen.orientation && screen.orientation.lock) {
-      screen.orientation.lock('landscape').catch(()=>{});
-    }
   }
 
   const bgm = document.getElementById('bgm');
@@ -432,7 +361,7 @@
       bgm.volume = 0.5; 
       let playPromise = bgm.play();
       if (playPromise !== undefined) {
-        playPromise.catch(e => console.log("BGM被拦截"));
+        playPromise.catch(e => console.log("BGM需用户交互后播放"));
       }
     }
   }
@@ -467,12 +396,11 @@
   }
 
   startBtn.onclick = function() {
-    requestLandscape();
-    preloadImages(); // 游戏开始时，触发预加载
-    
+    preloadImages(); 
     introArea.style.display = 'none';
     loadMission(0);
     if (isMusicOn) { bgm.play().catch(e => {}); }
+    window.scrollTo(0, 0); // 回到顶部
   };
 
   function loadMission(index) {
@@ -486,12 +414,6 @@
     cipherArea.classList.remove('hidden');
     dossierCard.style.display = 'none';
     nextAction.style.display = 'none';
-    
-    if (index % 2 === 1) {
-      dossierCard.classList.add('reverse');
-    } else {
-      dossierCard.classList.remove('reverse');
-    }
     
     offsetRange.value = 0;
     offsetValue.textContent = 0;
@@ -521,7 +443,6 @@
         
         setTimeout(() => {
           cipherArea.classList.add('hidden');
-          progressText.style.display = 'none'; 
           mainTitle.textContent = "绝密档案显现";
           
           dLoc.textContent = mission.location;
@@ -540,9 +461,10 @@
             nextBtn.onclick = function() {
               currentIndex++;
               loadMission(currentIndex);
+              window.scrollTo(0, 0); // 切换关卡时回到顶部
             };
           }
-        }, 800);
+        }, 600);
       } else {
         resultText.style.color = '#e74c3c';
         resultText.textContent = "❌ 偏移量错误，请继续尝试。";
@@ -553,7 +475,7 @@
           let playPromise = errorSound.play();
           if (playPromise !== undefined) {
             playPromise.catch(error => {
-              console.error("音频播放失败！请检查文件是否为 error.mp4 且已上传。", error);
+              console.error("音频播放失败", error);
             });
           }
         } catch (e) {
