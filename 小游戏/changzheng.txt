@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>数字档案：长征红色坐标图谱</title>
+<style>
+  :root {
+    --bg-color: #1a1614;
+    --card-bg: #f4ebd8;
+    --text-color: #3e2a22;
+    --accent: #c0392b;
+    --success: #27ae60;
+    --gold: #d4b87a;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background-color: #1a1614; color: #e8ddd0; 
+    font-family: "Songti SC", "SimSun", serif;
+    display: flex; justify-content: center; align-items: center;
+    min-height: 100vh; padding: 20px; overflow-y: auto;
+    background-image: radial-gradient(circle at 50% 0%, #3a2e28 0%, #1a1614 70%);
+  }
+
+  .container {
+    width: 100%; max-width: 1150px; 
+    background: #2b1f1a; border: 2px solid #6b4f3f; border-radius: 6px;
+    padding: 35px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+    position: relative; margin: auto;
+  }
+
+  .header-progress {
+    font-size: 14px; color: var(--gold); letter-spacing: 2px; margin-bottom: 15px;
+    text-transform: uppercase; border-bottom: 1px dashed #6b4f3f; padding-bottom: 15px;
+  }
+  .title { font-size: 28px; letter-spacing: 3px; color: #fff; margin-bottom: 25px;}
+
+  /* ================= 游戏说明简介区 ================= */
+  .intro-area {
+    background: var(--card-bg); color: var(--text-color);
+    padding: 40px 50px; border-radius: 6px; text-align: left;
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.1), 8px 8px 20px rgba(0,0,0,0.6);
+    border: 1px solid #d3c4b0; margin-bottom: 20px;
+    display: block;
+    animation: fadeIn 0.8s ease forwards;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .intro-area h2 {
+    color: var(--accent); font-family: "KaiTi", "楷体", serif;
+    font-size: 32px; text-align: center; margin-bottom: 25px;
+    border-bottom: 2px dashed #c0392b; padding-bottom: 15px;
+    letter-spacing: 4px;
+  }
+  .intro-area p {
+    font-size: 18px; line-height: 1.9; margin-bottom: 20px; text-align: justify;
+  }
+  .intro-area b { color: #a94442; }
+  
+  .rule-box {
+    background: rgba(0,0,0,0.05); border-left: 5px solid var(--accent);
+    padding: 20px 25px; margin: 25px 0; border-radius: 4px;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
+  }
+  .rule-box h3 { 
+    font-size: 22px; color: #6b4f3f; margin-bottom: 15px; 
+    display: flex; align-items: center; gap: 10px;
+  }
+  .rule-box ul { margin-left: 20px; line-height: 1.9; font-size: 17px;}
+  .rule-box li { margin-bottom: 8px; color: #444; }
+
+  .btn-start-container { text-align: center; margin-top: 35px; }
+  .btn-start {
+    background: var(--accent); color: #fff; border: none; 
+    padding: 16px 50px; font-size: 22px; font-family: "KaiTi", "楷体", serif;
+    cursor: pointer; border-radius: 4px; letter-spacing: 4px; font-weight: bold;
+    transition: all 0.3s; box-shadow: 0 4px 15px rgba(192, 57, 43, 0.4);
+  }
+  .btn-start:hover {
+    background: #a93226; transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(192, 57, 43, 0.6);
+  }
+
+  /* ================= 解密操作区 ================= */
+  .cipher-area { transition: opacity 0.5s ease; display: none; }
+  .cipher-area.active { display: block; }
+  .cipher-area.hidden { display: none; opacity: 0; }
+
+  .cipher-text {
+    font-size: 36px; letter-spacing: 12px; color: #ffd700; background: #1a110d;
+    padding: 25px; border-radius: 4px; margin-bottom: 25px; font-weight: bold; font-family: "Courier New", monospace;
+    border-left: 6px solid #6b4f3f; text-align: center;
+  }
+  .control-area label { font-size: 18px; color: #b8a88f; }
+  input[type=range] { width: 80%; margin: 20px 0; accent-color: var(--gold); }
+  .offset-val { font-size: 32px; color: #ffd700; font-weight: bold; margin-bottom: 20px;}
+
+  .btn {
+    background: #6b4f3f; color: #fff; border: 1px solid #8a6d4a; padding: 15px 30px;
+    font-size: 18px; font-family: inherit; cursor: pointer; border-radius: 4px; letter-spacing: 3px; transition: all 0.2s;
+  }
+  .btn:hover { background: #8a6d4a; box-shadow: 0 0 20px rgba(212,184,122,0.4); }
+  
+  /* === 修复按钮居中 === */
+  #submitBtn {
+    display: block;
+    margin: 0 auto;
+  }
+
+  .result { margin-top: 20px; min-height: 30px; font-size: 18px; font-weight: bold; text-align: center; }
+
+  /* ================= 档案卡片区 ================= */
+  .dossier-card {
+    display: none; background: var(--card-bg); color: var(--text-color);
+    padding: 40px; border-radius: 6px; text-align: left; position: relative;
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.1), 8px 8px 20px rgba(0,0,0,0.6);
+    animation: slideUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    border: 1px solid #d3c4b0; flex-direction: row; gap: 40px; align-items: center; 
+  }
+  
+  .dossier-card.reverse {
+    flex-direction: row-reverse;
+  }
+
+  .dossier-text { flex: 1; display: flex; flex-direction: column; }
+  .dossier-card::before {
+    content: "📍"; position: absolute; top: -20px; left: 50%; transform: translateX(-50%);
+    font-size: 36px; filter: drop-shadow(0 2px 2px rgba(0,0,0,0.3)); z-index: 10;
+  }
+  @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); display: flex; } }
+
+  .dossier-loc { font-size: 36px; font-weight: bold; color: var(--accent); border-bottom: 3px solid var(--accent); display: inline-block; padding-bottom: 8px; margin-bottom: 20px; font-family: "KaiTi", "楷体", serif;}
+  .dossier-meta { font-size: 18px; color: #666; margin-bottom: 20px; font-weight: bold; letter-spacing: 1px;}
+  
+  .dossier-content { font-size: 20px; line-height: 1.8; text-align: justify;}
+  .dossier-content b { color: #a94442; }
+  .dossier-content .doc-title { 
+    font-size: 20px; font-weight: bold; color: #6b4f3f; 
+    display: block; margin-top: 15px; margin-bottom: 5px; 
+    border-left: 4px solid var(--accent); padding-left: 10px;
+  }
+  
+  /* ================= 实物档案拼贴排版 ================= */
+  .artifact-collage {
+    display: flex; gap: 15px; margin-top: 20px; align-items: center;
+    background: rgba(255,255,255,0.6); padding: 12px; border-radius: 4px; border: 1px dashed #b8a88f;
+  }
+  .img-group {
+    display: flex; gap: 10px; flex-shrink: 0;
+  }
+  .artifact-collage img {
+    width: 140px; height: auto; border: 4px solid #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    flex-shrink: 0; transition: transform 0.2s;
+  }
+  .artifact-collage img:hover { transform: scale(1.05) !important; z-index: 10; position: relative;}
+  
+  .artifact-collage .single-img { transform: rotate(-2deg); }
+  .artifact-collage .dual-img-1 { transform: rotate(-3deg); }
+  .artifact-collage .dual-img-2 { transform: rotate(3deg); }
+
+  .artifact-text { font-size: 16px; color: #444; line-height: 1.6; font-weight: bold;}
+
+  .dossier-img-container {
+    width: 480px; flex-shrink: 0; background: #fff;
+    border: 6px solid #fff; box-shadow: 0 6px 15px rgba(0,0,0,0.3); padding: 5px; 
+  }
+  .dossier-img-container img { width: 100%; height: auto; display: block; }
+
+  .next-action { display: none; margin-top: 30px; text-align: center; }
+
+  /* ================= 最终长图总结 ================= */
+  #summaryContainer {
+    display: none; position: fixed; top: 0; left: 0; 
+    width: 100vw; height: 100vh; z-index: 9999; 
+    background: #110d0b; justify-content: center; align-items: center;
+  }
+  #summaryImage {
+    max-width: 95%; max-height: 95%; object-fit: contain;
+    box-shadow: 0 0 50px rgba(212,184,122,0.2); border: 4px solid #4a3f35;
+    animation: revealMap 1.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    opacity: 0; transform: scale(0.9);
+  }
+  @keyframes revealMap { to { opacity: 1; transform: scale(1); } }
+
+  /* 屏幕较小时适配 */
+  @media (max-width: 1024px) {
+    .dossier-card, .dossier-card.reverse { flex-direction: column; align-items: center; padding: 30px;}
+    .dossier-text { width: 100%; }
+    .dossier-img-container { width: 100%; max-width: 600px; margin-top: 20px;}
+    .dossier-content { font-size: 18px; }
+    .artifact-collage { flex-direction: column; align-items: flex-start; }
+    .artifact-collage img { width: 160px; }
+    .intro-area { padding: 25px; }
+    .intro-area h2 { font-size: 26px; }
+    .rule-box { padding: 15px; }
+    .btn-start { width: 100%; padding: 15px 20px; font-size: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container" id="mainContainer">
+  <div class="header-progress" id="progressText">绝密情报待接收</div>
+  <div class="title" id="mainTitle">长征红色坐标图谱</div>
+
+  <!-- 游戏说明区 -->
+  <div class="intro-area" id="introArea">
+    <h2>📡 截获机密电报</h2>
+    <p>1934年10月，中央红军被迫实行战略转移，开始了举世闻名的长征。在长征途中，红军将士依靠简陋的设备，在极其艰苦的条件下破译敌军密电，粉碎了敌人的围追堵截。</p>
+    <p><b>指挥官，你的任务：</b>作为一名红军译电员，你截获了7封加密电报。你需要通过破译电报中的地点，重现长征的红色坐标图谱。</p>
+    
+    <div class="rule-box">
+      <h3>🔐 破译说明（凯撒密码）</h3>
+      <ul>
+        <li>截获的电报全是英文字母，采用“凯撒密码”加密（即把字母按照字母表顺序向后退固定的位数）。</li>
+        <li>进入破译界面后，你会看到一个<b>“偏移量滑块（0-25）”</b>。</li>
+        <li>拖动滑块，观察密文的字母变化，直到它拼出一个<b>正确的地名拼音</b>（例如：RUIJIN）。</li>
+        <li>确认拼写正确后，点击“确认破译”按钮，即可解密历史档案！</li>
+      </ul>
+    </div>
+    
+    <div class="btn-start-container">
+      <button class="btn-start" id="startBtn">立即开始破译 →</button>
+    </div>
+  </div>
+
+  <!-- 破译操作区 -->
+  <div class="cipher-area" id="cipherArea">
+    <div class="cipher-text" id="cipherDisplay">XXXX</div>
+    <div class="control-area">
+      <label>调整解密偏移量（0-25）：</label><br>
+      <input type="range" id="offsetRange" min="0" max="25" value="0">
+      <div class="offset-val" id="offsetValue">0</div>
+    </div>
+    <button class="btn" id="submitBtn">确认破译</button>
+    <div class="result" id="resultText"></div>
+  </div>
+
+  <!-- 档案卡片区 -->
+  <div class="dossier-card" id="dossierCard">
+    <div class="dossier-text">
+      <div class="dossier-loc" id="dLoc">地名</div>
+      <div class="dossier-meta" id="dMeta">【时间】XXXX</div>
+      <div class="dossier-content" id="dContent">档案内容...</div>
+    </div>
+    <div class="dossier-img-container">
+      <img id="dImg" src="" alt="档案照片">
+    </div>
+  </div>
+
+  <div class="next-action" id="nextAction">
+    <button class="btn" id="nextBtn" style="background: var(--accent); border-color: #e74c3c;">接收下一条密电 →</button>
+  </div>
+</div>
+
+<div id="summaryContainer">
+  <img id="summaryImage" src="lutu.jpg" alt="长征路线总结图">
+</div>
+
+<script>
+  const missions = [
+    {
+      target: "RUIJIN", cipher: "UXLMLQ", location: "江西瑞金", time: "1934年10月", image: "1.jpg",
+      content: `
+        <span class="doc-title">《红色中华》报的动员记录</span>
+        1934年9月8日《红色中华》报载文《募集廿万双草鞋慰劳红军》，号召苏区群众“在十月十日前完成二十万双草鞋慰劳红军”。<span style="color: #c0392b; font-weight: bold;">而这个“十月十日”，正是中革军委机关从瑞金出发的日期。</span>
+        
+        <span class="doc-title">“八兄弟一齐报名当红军”</span>
+        1934年5月10日《红色中华》报道，瑞金沙洲坝农民杨荣显的8个儿子全部投身红军。
+
+        <div class="artifact-collage">
+          <div class="img-group">
+            <img src="caoxie.jpg" alt="邓永清穿过的草鞋" class="single-img">
+          </div>
+          <div class="artifact-text">
+            <b>历史实物档案：</b><br>红四方面军某部炊事班班长邓永清在长征途中穿过的布草鞋。
+          </div>
+        </div>
+      `
+    },
+    {
+      target: "ZUNYI", cipher: "CXQBL", location: "贵州遵义", time: "1935年1月15日-17日", image: "2.jpg",
+      content: `
+        <span class="doc-title">陈云手稿《遵义政治局扩大会议传达提纲》</span>
+        中央档案馆藏。手稿明确记载了会议决定：“毛泽东同志选为常委……取消三人团，仍由最高军事首长朱（德）、周（恩来）为军事指挥者”。
+        <span class="doc-title">《遵义会议决议》原文定性</span>
+        决议明确指出博古、李德“在军事上的单纯防御路线，是我们不能粉碎敌人五次‘围剿’的主要原因”。在最危急的关头，<b>挽救了党、挽救了红军、挽救了中国革命</b>。
+      `
+    },
+    {
+      target: "CHISHUI", cipher: "FKLVKXL", location: "赤水", time: "1935年1月-3月", image: "3.jpg",
+      content: `
+        <span class="doc-title">朱德部署电原文（四渡赤水）</span>
+        中央档案馆藏。1935年3月20日17时发出的四渡赤水电文明确指示：“我野战军决秘密、迅速、坚决出敌不备折而东向，限二十一日夜由二郎滩至林滩地段渡过赤水东岸，寻求机动”。
+        <span class="doc-title">战役评价</span>
+        此战使中央红军摆脱敌军追堵拦截，粉碎蒋介石围歼红军于川黔滇边境的计划，创造了<b>“长征史上最光彩神奇的篇章”</b>。
+        
+        <div class="artifact-collage">
+          <div class="img-group">
+            <img src="zidan.jpg" alt="子弹箱" class="dual-img-1">
+            <img src="cidao.jpg" alt="刺刀" class="dual-img-2">
+          </div>
+          <div class="artifact-text">
+            <b>历史实物档案：</b><br>1935年3月，中央红军三渡赤水时在贵州怀仁使用过的子弹箱和刺刀。
+          </div>
+        </div>
+      `
+    },
+    {
+      target: "LUDING", cipher: "OXGLQJ", location: "泸定桥", time: "1935年5月29日", image: "4.jpg",
+      content: `
+        <span class="doc-title">《战士报》1935年原始报道</span>
+        红一军团《战士报》对夺桥战斗的记载极为简练：“首先爬铁链冒火过河，将敌击溃，俘敌人枪数十，全部占领泸定桥”。这是当时最直接的一手战报。
+        <span class="doc-title">亲历者杨成武的五言诗</span>
+        红四团政委杨成武后来以诗记下奔袭之夜：“无边风雨夜，天堑大渡横。<b>火把照征途，飞兵夺泸定</b>。”
+      `
+    },
+    {
+      target: "JIAJIN", cipher: "MLDMLQ", location: "夹金山", time: "1935年6月中旬", image: "5.jpg",
+      content: `
+        <span class="doc-title">红军过雪山穿的蓝单衣</span>
+        中国人民革命军事博物馆展出的这件蓝色单衣，布料单薄、领子磨破，却是大多数红军战士翻越终年积雪的夹金山时的全部御寒衣物。
+        <span class="doc-title">“军需处长的故事”</span>
+        过雪山途中，军需处长把棉衣让给战友，自己冻僵牺牲在雪山上。他的身体被冻僵，但<b>信念却在战士们身体里沸腾</b>。
+        
+        <div class="artifact-collage">
+          <div class="img-group">
+            <img src="dayi.jpg" alt="皮大衣和毛线手套" class="single-img">
+          </div>
+          <div class="artifact-text">
+            <b>历史实物档案：</b><br>红军战士过雪山草地时穿过的皮大衣和毛线手套。
+          </div>
+        </div>
+      `
+    },
+    {
+      target: "WUQI", cipher: "ZXTL", location: "陕北吴起镇", time: "1935年10月19日", image: "6.jpg",
+      content: `
+        <span class="doc-title">“切尾巴”战役经过要图</span>
+        中央红军长征胜利纪念馆藏。1935年10月21日，红军在吴起镇击溃尾追的国民党骑兵。毛泽东挥笔写下：“谁敢横刀立马，唯我彭大将军”。
+        <span class="doc-title">战略意义</span>
+        此战为中央红军长征胜利落脚陕北写下关键一笔，<b>不把敌人带进根据地</b>，中央红军长征胜利结束。
+      `
+    },
+    {
+      target: "HUINING", cipher: "KXLQLQJ", location: "甘肃会宁", time: "1936年10月", image: "7.jpg",
+      content: `
+        <span class="doc-title">中共中央庆祝三军会合通电</span>
+        中央档案馆藏。1936年10月10日，中共中央、中华苏维埃中央政府、中革军委向朱德及全体红军指战员发出庆祝三军胜利会合的通电。
+        <span class="doc-title">彭德怀的铜水壶</span>
+        彭德怀留在会宁当地的一把铜水壶，是会师期间红军将领与当地群众共同生活的实物见证。至此，<b>三大主力红军胜利会师</b>，中国革命转危为安。
+        
+        <div class="artifact-collage">
+          <div class="img-group">
+            <img src="kuabao.jpg" alt="支援会师的挎包" class="single-img">
+          </div>
+          <div class="artifact-text">
+            <b>历史实物档案：</b><br>红一方面军在甘肃会宁支援红二、红四方面军的挎包。
+          </div>
+        </div>
+      `
+    }
+  ];
+
+  let currentIndex = 0;
+  const mainContainer = document.getElementById('mainContainer');
+  const progressText = document.getElementById('progressText');
+  const mainTitle = document.getElementById('mainTitle');
+  const introArea = document.getElementById('introArea');
+  const startBtn = document.getElementById('startBtn');
+  
+  const cipherArea = document.getElementById('cipherArea');
+  const cipherDisplay = document.getElementById('cipherDisplay');
+  const offsetRange = document.getElementById('offsetRange');
+  const offsetValue = document.getElementById('offsetValue');
+  const submitBtn = document.getElementById('submitBtn');
+  const resultText = document.getElementById('resultText');
+  
+  const dossierCard = document.getElementById('dossierCard');
+  const dImg = document.getElementById('dImg');
+  const dLoc = document.getElementById('dLoc');
+  const dMeta = document.getElementById('dMeta');
+  const dContent = document.getElementById('dContent');
+  const nextAction = document.getElementById('nextAction');
+  const nextBtn = document.getElementById('nextBtn');
+  const summaryContainer = document.getElementById('summaryContainer');
+
+  function caesarDecode(str, shift) {
+    return str.replace(/[A-Z]/g, c => {
+      let code = c.charCodeAt(0);
+      let shifted = ((code - 65 - shift + 26) % 26) + 65;
+      return String.fromCharCode(shifted);
+    });
+  }
+
+  startBtn.onclick = function() {
+    introArea.style.display = 'none';
+    loadMission(0);
+  };
+
+  function loadMission(index) {
+    const mission = missions[index];
+    progressText.textContent = `密电破译进度 ${index + 1} / ${missions.length}`;
+    mainTitle.textContent = "截获机密电报";
+    
+    cipherArea.classList.add('active');
+    cipherArea.classList.remove('hidden');
+    dossierCard.style.display = 'none';
+    nextAction.style.display = 'none';
+    
+    if (index % 2 === 1) {
+      dossierCard.classList.add('reverse');
+    } else {
+      dossierCard.classList.remove('reverse');
+    }
+    
+    offsetRange.value = 0;
+    offsetValue.textContent = 0;
+    offsetRange.disabled = false;
+    cipherDisplay.textContent = mission.cipher;
+    resultText.textContent = '';
+    submitBtn.style.display = 'block';
+    
+    offsetRange.oninput = function() {
+      const shift = parseInt(this.value);
+      offsetValue.textContent = shift;
+      cipherDisplay.textContent = caesarDecode(mission.cipher, shift);
+    };
+    
+    submitBtn.onclick = function() {
+      if (cipherDisplay.textContent === mission.target) {
+        resultText.style.color = '#2ecc71';
+        resultText.textContent = "✅ 破译成功！机密档案已解密。";
+        submitBtn.style.display = 'none';
+        offsetRange.disabled = true;
+        
+        setTimeout(() => {
+          cipherArea.classList.add('hidden');
+          mainTitle.textContent = "绝密档案显现";
+          
+          dLoc.textContent = mission.location;
+          dMeta.textContent = `【时间】${mission.time}`;
+          dContent.innerHTML = mission.content;
+          dImg.src = mission.image; 
+          
+          dossierCard.style.display = 'flex'; 
+          nextAction.style.display = 'block';
+          
+          if (currentIndex === missions.length - 1) {
+            nextBtn.textContent = "🚀 查看长征全程路线总结";
+            nextBtn.onclick = showSummaryMap;
+          } else {
+            nextBtn.textContent = "接收下一条密电 →";
+            nextBtn.onclick = function() {
+              currentIndex++;
+              loadMission(currentIndex);
+            };
+          }
+        }, 800);
+      } else {
+        resultText.style.color = '#e74c3c';
+        resultText.textContent = "❌ 偏移量错误，请继续尝试。";
+      }
+    };
+  }
+
+  function showSummaryMap() {
+    mainContainer.style.display = 'none';
+    summaryContainer.style.display = 'flex'; 
+  }
+</script>
+</body>
+</html>
