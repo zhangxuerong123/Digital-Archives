@@ -22,9 +22,9 @@
     background-image: radial-gradient(circle at 50% 0%, #3a2e28 0%, #1a1614 70%);
   }
 
-  /* ================= 新增：强制横屏提示遮罩 ================= */
+  /* ================= 强制横屏提示遮罩 ================= */
   #rotateOverlay {
-    display: none; /* 默认隐藏 */
+    display: none;
     position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
     background: #1a1614; z-index: 99999;
     flex-direction: column; justify-content: center; align-items: center;
@@ -39,12 +39,11 @@
     50% { transform: rotate(-90deg); }
     100% { transform: rotate(0deg); }
   }
-  /* 当屏幕是竖屏（portrait）且宽度小于1024px（手机/平板）时，显示遮罩 */
+  /* 竖屏且是手机时显示遮罩 */
   @media screen and (orientation: portrait) and (max-width: 1024px) {
     #rotateOverlay { display: flex; }
     .container { display: none !important; }
   }
-  /* ========================================================= */
 
   .container {
     width: 100%; max-width: 1150px; 
@@ -74,47 +73,31 @@
     padding: 40px 50px; border-radius: 6px; text-align: left;
     box-shadow: inset 0 0 20px rgba(0,0,0,0.1), 8px 8px 20px rgba(0,0,0,0.6);
     border: 1px solid #d3c4b0; margin-bottom: 20px;
-    display: block;
-    animation: fadeIn 0.8s ease forwards;
+    display: block; animation: fadeIn 0.8s ease forwards;
   }
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
   .intro-area h2 {
     color: var(--accent); font-family: "KaiTi", "楷体", serif;
     font-size: 32px; text-align: center; margin-bottom: 25px;
-    border-bottom: 2px dashed #c0392b; padding-bottom: 15px;
-    letter-spacing: 4px;
+    border-bottom: 2px dashed #c0392b; padding-bottom: 15px; letter-spacing: 4px;
   }
-  .intro-area p {
-    font-size: 18px; line-height: 1.9; margin-bottom: 20px; text-align: justify;
-  }
+  .intro-area p { font-size: 18px; line-height: 1.9; margin-bottom: 20px; text-align: justify; }
   .intro-area b { color: #a94442; }
   
   .rule-box {
     background: rgba(0,0,0,0.05); border-left: 5px solid var(--accent);
-    padding: 20px 25px; margin: 25px 0; border-radius: 4px;
-    box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
+    padding: 20px 25px; margin: 25px 0; border-radius: 4px; box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
   }
-  .rule-box h3 { 
-    font-size: 22px; color: #6b4f3f; margin-bottom: 15px; 
-    display: flex; align-items: center; gap: 10px;
-  }
+  .rule-box h3 { font-size: 22px; color: #6b4f3f; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
   .rule-box ul { margin-left: 20px; line-height: 1.9; font-size: 17px;}
   .rule-box li { margin-bottom: 8px; color: #444; }
 
   .btn-start-container { text-align: center; margin-top: 35px; }
   .btn-start {
-    background: var(--accent); color: #fff; border: none; 
-    padding: 16px 50px; font-size: 22px; font-family: "KaiTi", "楷体", serif;
-    cursor: pointer; border-radius: 4px; letter-spacing: 4px; font-weight: bold;
-    transition: all 0.3s; box-shadow: 0 4px 15px rgba(192, 57, 43, 0.4);
+    background: var(--accent); color: #fff; border: none; padding: 16px 50px; font-size: 22px; font-family: "KaiTi", "楷体", serif;
+    cursor: pointer; border-radius: 4px; letter-spacing: 4px; font-weight: bold; transition: all 0.3s; box-shadow: 0 4px 15px rgba(192, 57, 43, 0.4);
   }
-  .btn-start:hover {
-    background: #a93226; transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(192, 57, 43, 0.6);
-  }
+  .btn-start:hover { background: #a93226; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(192, 57, 43, 0.6); }
 
   /* ================= 解密操作区 ================= */
   .cipher-area { transition: opacity 0.5s ease; display: none; }
@@ -122,10 +105,8 @@
   .cipher-area.hidden { display: none; opacity: 0; }
 
   .cipher-text {
-    font-size: 36px; letter-spacing: 12px; color: #ffd700; background: #1a110d;
-    padding: 25px; border-radius: 4px; margin-bottom: 25px; font-weight: bold; font-family: "Courier New", monospace;
-    border-left: 6px solid #6b4f3f; text-align: center;
-    box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+    font-size: 36px; letter-spacing: 12px; color: #ffd700; background: #1a110d; padding: 25px; border-radius: 4px; margin-bottom: 25px;
+    font-weight: bold; font-family: "Courier New", monospace; border-left: 6px solid #6b4f3f; text-align: center; box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
   }
   .control-area label { font-size: 18px; color: #b8a88f; }
   input[type=range] { width: 80%; margin: 20px 0; accent-color: var(--gold); }
@@ -136,12 +117,7 @@
     font-size: 18px; font-family: inherit; cursor: pointer; border-radius: 4px; letter-spacing: 3px; transition: all 0.2s;
   }
   .btn:hover { background: #8a6d4a; box-shadow: 0 0 20px rgba(212,184,122,0.4); }
-  
-  #submitBtn {
-    display: block;
-    margin: 0 auto;
-  }
-
+  #submitBtn { display: block; margin: 0 auto; }
   .result { margin-top: 20px; min-height: 30px; font-size: 18px; font-weight: bold; text-align: center; }
 
   /* ================= 档案卡片区 ================= */
@@ -152,11 +128,7 @@
     animation: slideUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
     border: 1px solid #d3c4b0; flex-direction: row; gap: 40px; align-items: center; 
   }
-  
-  .dossier-card.reverse {
-    flex-direction: row-reverse;
-  }
-
+  .dossier-card.reverse { flex-direction: row-reverse; }
   .dossier-text { flex: 1; display: flex; flex-direction: column; }
   .dossier-card::before {
     content: "📍"; position: absolute; top: -20px; left: 50%; transform: translateX(-50%);
@@ -170,9 +142,7 @@
   .dossier-content { font-size: 20px; line-height: 1.8; text-align: justify;}
   .dossier-content b { color: #a94442; }
   .dossier-content .doc-title { 
-    font-size: 20px; font-weight: bold; color: #6b4f3f; 
-    display: block; margin-top: 15px; margin-bottom: 5px; 
-    border-left: 4px solid var(--accent); padding-left: 10px;
+    font-size: 20px; font-weight: bold; color: #6b4f3f; display: block; margin-top: 15px; margin-bottom: 5px; border-left: 4px solid var(--accent); padding-left: 10px;
   }
   
   /* ================= 实物档案拼贴排版 ================= */
@@ -180,45 +150,35 @@
     display: flex; gap: 15px; margin-top: 20px; align-items: center;
     background: rgba(255,255,255,0.6); padding: 12px; border-radius: 4px; border: 1px dashed #b8a88f;
   }
-  .img-group {
-    display: flex; gap: 10px; flex-shrink: 0;
-  }
+  .img-group { display: flex; gap: 10px; flex-shrink: 0; }
   .artifact-collage img {
-    width: 140px; height: auto; border: 4px solid #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-    flex-shrink: 0; transition: transform 0.2s;
+    width: 140px; height: auto; border: 4px solid #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.3); flex-shrink: 0; transition: transform 0.2s;
   }
   .artifact-collage img:hover { transform: scale(1.05) !important; z-index: 10; position: relative;}
-  
   .artifact-collage .single-img { transform: rotate(-2deg); }
   .artifact-collage .dual-img-1 { transform: rotate(-3deg); }
   .artifact-collage .dual-img-2 { transform: rotate(3deg); }
-
   .artifact-text { font-size: 16px; color: #444; line-height: 1.6; font-weight: bold;}
 
   .dossier-img-container {
-    width: 480px; flex-shrink: 0; background: #fff;
-    border: 6px solid #fff; box-shadow: 0 6px 15px rgba(0,0,0,0.3); padding: 5px; 
+    width: 480px; flex-shrink: 0; background: #fff; border: 6px solid #fff; box-shadow: 0 6px 15px rgba(0,0,0,0.3); padding: 5px; 
   }
   .dossier-img-container img { width: 100%; height: auto; display: block; }
-
   .next-action { display: none; margin-top: 30px; text-align: center; }
 
   /* ================= 最终长图总结 ================= */
   #summaryContainer {
-    display: none; position: fixed; top: 0; left: 0; 
-    width: 100vw; height: 100vh; z-index: 9999; 
+    display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 9999; 
     background: #110d0b; justify-content: center; align-items: center;
   }
   #summaryImage {
-    max-width: 95%; max-height: 95%; object-fit: contain;
-    box-shadow: 0 0 50px rgba(212,184,122,0.2); border: 4px solid #4a3f35;
-    animation: revealMap 1.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-    opacity: 0; transform: scale(0.9);
+    max-width: 95%; max-height: 95%; object-fit: contain; box-shadow: 0 0 50px rgba(212,184,122,0.2); border: 4px solid #4a3f35;
+    animation: revealMap 1.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; opacity: 0; transform: scale(0.9);
   }
   @keyframes revealMap { to { opacity: 1; transform: scale(1); } }
 
-  /* 屏幕较小时适配（这里将最大宽度改宽一点，方便横屏显示时左右排版） */
-  @media (max-width: 1024px) {
+  /* ================= 手机竖屏普通适配 ================= */
+  @media (max-width: 1024px) and (orientation: portrait) {
     .dossier-card, .dossier-card.reverse { flex-direction: column; align-items: center; padding: 30px;}
     .dossier-text { width: 100%; }
     .dossier-img-container { width: 100%; max-width: 600px; margin-top: 20px;}
@@ -231,6 +191,64 @@
     .btn-start { width: 100%; padding: 15px 20px; font-size: 20px; }
     .cipher-text { font-size: 28px; letter-spacing: 8px; }
   }
+
+  /* ================= 📱 手机横屏专项优化（高度小于600px） ================= */
+  @media screen and (max-height: 600px) {
+    body { padding: 10px; align-items: flex-start; }
+    .container { padding: 15px 25px; max-width: 98vw; }
+    .header-progress { display: none; } /* 隐藏进度条节约高度 */
+    .title { font-size: 20px; margin-bottom: 10px; }
+    
+    /* 游戏说明页调整 */
+    .intro-area { padding: 20px; margin-bottom: 10px; }
+    .intro-area h2 { font-size: 22px; margin-bottom: 10px; padding-bottom: 10px; }
+    .intro-area p { font-size: 14px; line-height: 1.5; margin-bottom: 10px; }
+    .rule-box { padding: 10px 15px; margin: 10px 0; }
+    .rule-box h3 { font-size: 16px; margin-bottom: 5px; }
+    .rule-box ul { font-size: 13px; line-height: 1.5; }
+    .btn-start { padding: 10px 30px; font-size: 16px; margin-top: 10px; }
+    
+    /* 解密区调整 */
+    .cipher-area { padding-top: 10px; }
+    .cipher-text { font-size: 24px; padding: 15px; margin-bottom: 15px; letter-spacing: 8px; }
+    .control-area label { font-size: 14px; }
+    input[type=range] { margin: 10px 0; }
+    .offset-val { font-size: 20px; margin-bottom: 10px; }
+    #submitBtn { padding: 10px 30px; font-size: 16px; }
+    
+    /* 档案卡片区：强制恢复左右布局 */
+    .dossier-card, .dossier-card.reverse { 
+      flex-direction: row !important; 
+      padding: 20px; 
+      gap: 20px;
+      align-items: flex-start;
+      margin-top: 15px;
+    }
+    .dossier-text { width: 60%; }
+    .dossier-loc { font-size: 22px; margin-bottom: 10px; padding-bottom: 5px; }
+    .dossier-meta { font-size: 13px; margin-bottom: 10px; }
+    .dossier-content { font-size: 14px; line-height: 1.6; }
+    .dossier-content .doc-title { font-size: 14px; margin-top: 10px; padding-left: 8px; }
+    
+    .dossier-img-container { 
+      width: 35%; 
+      max-width: 300px; 
+      margin-top: 0; 
+    }
+    
+    .artifact-collage { 
+      flex-direction: row; 
+      padding: 8px; 
+      gap: 10px; 
+      margin-top: 10px;
+      align-items: center;
+    }
+    .artifact-collage img { width: 80px; border-width: 2px; }
+    .artifact-text { font-size: 12px; line-height: 1.4; }
+    
+    .next-action { margin-top: 15px; }
+    #nextBtn { padding: 10px 20px; font-size: 16px; }
+  }
 </style>
 </head>
 <body>
@@ -242,9 +260,7 @@
   <p style="color: #b8a88f; font-size: 16px;">旋转手机以获得最佳视觉及操作体验</p>
 </div>
 
-<!-- 🎵 背景音乐 -->
 <audio id="bgm" src="bgm.mp4" preload="auto" loop></audio>
-<!-- ❌ 错误音效 -->
 <audio id="errorSound" src="error.mp4" preload="auto"></audio>
 
 <div class="container" id="mainContainer">
@@ -253,7 +269,6 @@
   <div class="header-progress" id="progressText">绝密情报待接收</div>
   <div class="title" id="mainTitle">长征红色坐标图谱</div>
 
-  <!-- 游戏说明区 -->
   <div class="intro-area" id="introArea">
     <h2>📡 截获机密电报</h2>
     <p>1934年10月，中央红军被迫实行战略转移，开始了举世闻名的长征。在长征途中，红军将士依靠简陋的设备，在极其艰苦的条件下破译敌军密电，粉碎了敌人的围追堵截。</p>
@@ -275,7 +290,6 @@
     </div>
   </div>
 
-  <!-- 破译操作区 -->
   <div class="cipher-area" id="cipherArea">
     <div class="cipher-text" id="cipherDisplay">XXXX</div>
     <div class="control-area">
@@ -287,7 +301,6 @@
     <div class="result" id="resultText"></div>
   </div>
 
-  <!-- 档案卡片区 -->
   <div class="dossier-card" id="dossierCard">
     <div class="dossier-text">
       <div class="dossier-loc" id="dLoc">地名</div>
@@ -417,22 +430,18 @@
   const nextBtn = document.getElementById('nextBtn');
   const summaryContainer = document.getElementById('summaryContainer');
 
-  // ================= 屏幕横屏及全屏控制 =================
   function requestLandscape() {
-    // 尝试调用全屏 (如果是在安卓手机浏览器中有效)
     let docElm = document.documentElement;
     if (docElm.requestFullscreen) {
       docElm.requestFullscreen().catch(()=>{});
     } else if (docElm.webkitRequestFullScreen) { 
       docElm.webkitRequestFullScreen().catch(()=>{});
     }
-    // 尝试强制横屏 (部分浏览器支持)
     if (screen.orientation && screen.orientation.lock) {
       screen.orientation.lock('landscape').catch(()=>{});
     }
   }
 
-  // ================= 音频控制逻辑 =================
   const bgm = document.getElementById('bgm');
   const errorSound = document.getElementById('errorSound'); 
   const musicToggle = document.getElementById('musicToggle');
@@ -468,7 +477,6 @@
       isMusicOn = true;
     }
   };
-  // ================================================
 
   function caesarDecode(str, shift) {
     return str.replace(/[A-Z]/g, c => {
@@ -479,7 +487,6 @@
   }
 
   startBtn.onclick = function() {
-    // 用户点击后，尝试全屏+横屏
     requestLandscape();
     
     introArea.style.display = 'none';
